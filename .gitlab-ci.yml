@@ -7,7 +7,7 @@ docker-build-master:
     - docker:dind
   before_script:
     #- docker login -u "yugesh_ganesan" --password-stdin "756446@YUg" sample-project
-    - docker login registry.example.com -u yugesh_ganesan -p 1cFxpyJzw5S5R7ospvVM
+    - docker login registry.gitlab.com -u yugesh_ganesan -p 1cFxpyJzw5S5R7ospvVM
     #- docker login registry.gitlab.com
   script:
     #- docker build --pull -t "$CI_REGISTRY_IMAGE" .
