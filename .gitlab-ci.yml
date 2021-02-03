@@ -22,9 +22,3 @@ docker-build-master:
     - kubectl version --client
   only:
     - master
-   
- deploy:
-  image: :latest
-  script:
-  - pip install awscli
-  #- aws s3 cp ./ s3://yourbucket/ --recursive --exclude "*" --include "*.html"
