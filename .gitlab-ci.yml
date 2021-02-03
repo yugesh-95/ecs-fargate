@@ -18,5 +18,13 @@ docker-build-master:
     #- ImageUri = registry.gitlab.com/yugesh_ganesan/sample-project:"$CI_PIPELINE_IID"
     - docker build -t "$ImageUri" .
     - docker push "$ImageUri"
+    - sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    - kubectl version --client
   only:
     - master
+   
+ deploy:
+  image: :latest
+  script:
+  - pip install awscli
+  #- aws s3 cp ./ s3://yourbucket/ --recursive --exclude "*" --include "*.html"
