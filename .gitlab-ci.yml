@@ -1,28 +1,33 @@
-# This file is a template, and might need editing before it works on your project.
-docker-build-master:
-  # Official docker image.
-  image: docker:latest
-  stage: build
-  variables:
-    ImageUri: registry.gitlab.com/yugesh_ganesan/sample-project:$CI_PIPELINE_IID
-  services:
-    - docker:dind
-  before_script:
-    #- docker login -u "yugesh_ganesan" --password-stdin "756446@YUg" sample-project
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    #- docker login registry.gitlab.com -u yugesh_ganesan -p 1cFxpyJzw5S5R7ospvVM
-    #- docker login registry.gitlab.com
-  script:
-    #- docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    #- docker push "$CI_REGISTRY_IMAGE"
-    #- ImageUri = registry.gitlab.com/yugesh_ganesan/sample-project:"$CI_PIPELINE_IID"
-    - docker build -t "$ImageUri" .
-    - docker push "$ImageUri"
-    - apt-get update && apt-get install -y apt-transport-https gnupg2 curl
-    - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-    - echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
-    - apt-get update
-    - apt-get install -y kubectl
-    - kubectl version --client
-  only:
-    - master
+stages:
+ - build
+ - deploy
+
+ variables:
+ ImageUri: registry.gitlab.com/yugesh_ganesan/sample-project:$CI_PIPELINE_IID
+
+ # Production
+ prod-build:
+   image: docker:latest
+   stage: build
+   script:
+   #- docker build -t $IMAGE --build-arg RAILS_ENV=production .
+   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+   - docker build -t "$ImageUri" .
+   - docker push "$ImageUri"
+   only:
+   - master
+
+ prod-deploy:
+   image: ubuntu:latest
+   stage: deploy
+   script:
+   #- docker push $IMAGE
+   #- docker run -e "some production relevated env vars"
+   - apt-get update && apt-get install -y apt-transport-https gnupg2 curl
+   - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+   - echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+   - apt-get update
+   - apt-get install -y kubectl
+   - kubectl version --client
+   only:
+   - master
