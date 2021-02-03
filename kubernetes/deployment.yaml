@@ -18,7 +18,9 @@ spec:
     spec:
       containers:
       - name: python-web
-        image: 945568844480.dkr.ecr.us-east-2.amazonaws.com/fargate-tutorial:1
+        image: registry.gitlab.com/yugesh_ganesan/sample-project:3
         ports:
           - containerPort: 8080
         resources: {}
+      imagePullSecrets:
+      - name: gitlab-auth

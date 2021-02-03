@@ -7,6 +7,10 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/security-groups: sg-066c10c1369e68c3b
+    alb.ingress.kubernetes.io/subnets: subnet-0088a65ef79bf9331, subnet-014b20544303a11e5
+  labels:
+    app: python-web
 spec:
   rules:
     - http:
