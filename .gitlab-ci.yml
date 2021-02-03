@@ -1,10 +1,10 @@
 stages:
-  - compile
-  - test
-  - package
+  - dockerbuild
+  - deploy
+  
 
-compile:
-  stage: compile
+dockerbuild:
+  stage: dockerbuild
   image: docker:latest
   variables:
     ImageUri: registry.gitlab.com/yugesh_ganesan/sample-project:$CI_PIPELINE_IID
@@ -18,8 +18,8 @@ compile:
   only:
     - master
 
-test:
-  stage: test
+deploy:
+  stage: deploy
   image: ubuntu:latest
   script: 
     - apt-get update && apt-get install -y apt-transport-https gnupg2 curl
@@ -28,5 +28,7 @@ test:
     - apt-get update
     - apt-get install -y kubectl
     - kubectl version --client
+    - sed 's/$docker/$ImageUri/g' kubernetes/deployment.yaml
+    - cat kubernetes/deployment.yaml
   only:
     - master
