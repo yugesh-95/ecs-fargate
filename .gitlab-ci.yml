@@ -17,6 +17,6 @@ docker-build-master:
     #- docker push "$CI_REGISTRY_IMAGE"
     #- ImageUri = registry.gitlab.com/yugesh_ganesan/sample-project:"$CI_PIPELINE_IID"
     - docker build -t "$ImageUri" .
-    - docker push $ImageUri"
+    - docker push "$ImageUri"
   only:
     - master
