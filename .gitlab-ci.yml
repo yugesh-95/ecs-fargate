@@ -8,8 +8,11 @@ compile:
   image: docker:latest
   variables:
     ImageUri: registry.gitlab.com/yugesh_ganesan/sample-project:$CI_PIPELINE_IID
-  script: 
+  services:
+    - docker:dind
+  before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script: 
     - docker build -t "$ImageUri" .
     - docker push "$ImageUri"
   only:
