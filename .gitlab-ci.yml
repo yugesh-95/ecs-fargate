@@ -21,8 +21,6 @@ dockerbuild:
 deploy:
   stage: deploy
   image: ubuntu:latest
-  variables:
-    ImageUri: $CI_PIPELINE_IID
   script: 
     - apt-get update && apt-get install -y apt-transport-https gnupg2 curl
     - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
@@ -30,7 +28,7 @@ deploy:
     - apt-get update
     - apt-get install -y kubectl
     - kubectl version --client
-    - sed -i 's/$docker/"$ImageUri"/g' kubernetes/deployment.yaml
+    - sed -i "s/$docker/$CI_PIPELINE_IID/g" kubernetes/deployment.yaml
     - cat kubernetes/deployment.yaml
     #- kubectl set image deployment/deployment_name myInitContainer=url_to_container
   only:
