@@ -30,7 +30,7 @@ deploy:
     - apt-get update
     - apt-get install -y kubectl
     - kubectl version --client
-    - sed -i 's/$docker/$ImageUri/g' kubernetes/deployment.yaml
+    - sed -i 's/$docker/"$ImageUri"/g' kubernetes/deployment.yaml
     - cat kubernetes/deployment.yaml
     #- kubectl set image deployment/deployment_name myInitContainer=url_to_container
   only:
