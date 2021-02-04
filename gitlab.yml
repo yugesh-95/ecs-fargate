@@ -26,3 +26,41 @@ docker-build-master:
     - kubectl version --client
   only:
     - master
+    
+    Second:
+    
+stages:
+  - dockerbuild
+  - deploy
+ 
+variables:
+    ImageUri: registry.gitlab.com/yugesh_ganesan/sample-project:$CI_PIPELINE_IID
+
+dockerbuild:
+  stage: dockerbuild
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script: 
+    - docker build -t "$ImageUri" .
+    - docker push "$ImageUri"
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  image: ubuntu:latest
+  script: 
+    - apt-get update && apt-get install -y apt-transport-https gnupg2 curl
+    - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+    - echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+    - apt-get update
+    - apt-get install -y kubectl
+    - kubectl version --client
+    - sed 's/$docker/$ImageUri/g' kubernetes/deployment.yaml
+    - cat kubernetes/deployment.yaml
+    #- kubectl set image deployment/deployment_name myInitContainer=url_to_container
+  only:
+    - master
