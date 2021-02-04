@@ -45,10 +45,12 @@ deploy:
     - apt-get update
     - apt-get install -y kubectl
     - kubectl version --client
+    - kubectl create secret docker-registry gitlab-auth --docker-server=https://registry.gitlab.com --docker-username=yugesh_ganesan --docker-password=756446@YUg --docker-email=yugeshmx@gmail.com
     #- sed -i 's/$docker/"$ImageUri"/g' kubernetes/deployment.yaml
     #- sed -ie "s/$docker/$(CI_PIPELINE_IID)/g" kubernetes/deployment.yaml
     - sed -ie "s/THIS_STRING_IS_REPLACED_DURING_BUILD/$(date)/g" kubernetes/deployment.yaml
     - cat kubernetes/deployment.yaml
+    - kubectl apply -f kubernetes/deployment.yaml
     #- kubectl set image deployment/deployment_name myInitContainer=url_to_container
   only:
     - master

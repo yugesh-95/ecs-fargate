@@ -18,10 +18,10 @@ spec:
     spec:
       containers:
       - name: python-web
-        image: registry.gitlab.com/yugesh_ganesan/sample-project:master
+        image: registry.gitlab.com/yugesh_ganesan/sample-project:50
         imagePullPolicy: Always
         env:
-        - name: FOR REDEPLOY
+        - name: FOR_REDEPLOY
           value: 'THIS_STRING_IS_REPLACED_DURING_BUILD'
         ports:
           - containerPort: 8080
