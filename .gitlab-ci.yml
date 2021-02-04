@@ -29,7 +29,7 @@ test:
   script: 
     - docker run -d --name test "$ImageUri"
     - export OUTPUT=$(dockerexec test curl -sSfL localhost)
-    - test "$OUTPUT" =="Hello, World!" || (echo $OUTPUT && exit 1)
+    - test "$OUTPUT" == "Hello, World!" || (echo $OUTPUT && exit 1)
   only:
     - master
     
