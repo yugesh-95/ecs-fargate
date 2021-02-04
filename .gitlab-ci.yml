@@ -1,5 +1,6 @@
 stages:
   - dockerbuild
+  - test
   - deploy
 
 
@@ -17,7 +18,21 @@ dockerbuild:
     - docker push "$ImageUri"
   only:
     - master
-
+    
+test:
+  stage: dockerbuild
+  image: docker:latest
+  variables:
+    ImageUri: registry.gitlab.com/yugesh_ganesan/sample-project:$CI_PIPELINE_IID
+  services:
+    - docker:dind
+  script: 
+    - docker run -d --name test "$ImageUri"
+    - export OUTPUT=$(dockerexec test curl -sSfL localhost)
+    - test "$OUTPUT" =="Hello, World!" || (echo $OUTPUT && exit 1)
+  only:
+    - master
+    
 deploy:
   stage: deploy
   image: ubuntu:latest
@@ -28,7 +43,7 @@ deploy:
     - apt-get update
     - apt-get install -y kubectl
     - kubectl version --client
-    - sed -i 's/$docker/$CI_PIPELINE_IID/g'kubernetes/deployment.yaml
+    - sed -i 's/$docker/$CI_PIPELINE_IID/g' kubernetes/deployment.yaml
     - cat kubernetes/deployment.yaml
     #- kubectl set image deployment/deployment_name myInitContainer=url_to_container
   only:
