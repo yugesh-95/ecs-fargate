@@ -20,7 +20,7 @@ dockerbuild:
     - master
     
 test:
-  stage: dockerbuild
+  stage: test
   image: docker:latest
   variables:
     ImageUri: registry.gitlab.com/yugesh_ganesan/sample-project:$CI_PIPELINE_IID
