@@ -46,7 +46,8 @@ deploy:
     - apt-get install -y kubectl
     - kubectl version --client
     #- sed -i 's/$docker/"$ImageUri"/g' kubernetes/deployment.yaml
-    - sed -ie "s/$docker/$(CI_PIPELINE_IID)/g" kubernetes/deployment.yaml
+    #- sed -ie "s/$docker/$(CI_PIPELINE_IID)/g" kubernetes/deployment.yaml
+    - sed -ie "s/THIS_STRING_IS_REPLACED_DURING_BUILD/$(date)/g" kubernetes/deployment.yaml
     - cat kubernetes/deployment.yaml
     #- kubectl set image deployment/deployment_name myInitContainer=url_to_container
   only:
