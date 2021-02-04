@@ -36,8 +36,6 @@ test:
 deploy:
   stage: deploy
   image: ubuntu:latest
-  variables:
-    ImageUri: registry.gitlab.com/yugesh_ganesan/sample-project:$CI_PIPELINE_IID
   script: 
     - apt-get update && apt-get install -y apt-transport-https gnupg2 curl
     - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
