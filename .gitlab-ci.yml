@@ -1,6 +1,6 @@
 stages:
   - dockerbuild
-  - test
+  - testing
   - deploy
 
 
@@ -19,8 +19,8 @@ dockerbuild:
   only:
     - master
     
-test:
-  stage: test
+testing:
+  stage: testing
   image: docker:latest
   variables:
     ImageUri: registry.gitlab.com/yugesh_ganesan/sample-project:$CI_PIPELINE_IID
