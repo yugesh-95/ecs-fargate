@@ -1,5 +1,6 @@
 {
 	"family": "python",
+	"networkMode": "awsvpc",
 	"requiresCompatibilities": [
 		"FARGATE"
 	],
