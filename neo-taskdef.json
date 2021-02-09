@@ -5,7 +5,7 @@
 		"FARGATE"
 	],
 	"cpu": "1024", 
-    	"memory": "1024"
+    	"memory": "1024",
 	"containerDefinitions": [{
 		"image": "466719379526.dkr.ecr.us-east-1.amazonaws.com/repo:BUILD",
 		"name": "python-hello",
