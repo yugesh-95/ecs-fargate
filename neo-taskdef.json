@@ -1,18 +1,17 @@
 {
-    "family": "python",
-    "containerDefinitions": [
-        {
-            "image": "466719379526.dkr.ecr.us-east-1.amazonaws.com/repo:BUILD",
-            "name": "python-hello",
-            "cpu": 1024,
-            "memory": 1024,
-            "essential": true,
-            "portMappings": [
-                {
-                    "containerPort": 8080,
-                    "hostPort": 80
-                }
-            ]
-        }
-    ]
+	"family": "python",
+	"containerDefinitions": [{
+		"image": "466719379526.dkr.ecr.us-east-1.amazonaws.com/repo:BUILD",
+		"name": "python-hello",
+		"requiresCompatibilities": [
+			"FARGATE"
+		],
+		"cpu": 1024,
+		"memory": 1024,
+		"essential": true,
+		"portMappings": [{
+			"containerPort": 8080,
+			"hostPort": 80
+		}]
+	}]
 }
